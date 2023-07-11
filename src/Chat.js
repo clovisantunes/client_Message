@@ -1,22 +1,26 @@
 import React, { useState } from "react";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:8080");
+socket.on("connect", () =>
+  console.log("[io] Connect => A new connection estableshed")
+);
 
 const Chat = () => {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
-
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (message.trim()) {
       const newMessage = {
         id: messages.length + 1,
-        message: message
+        message: message,
       };
       setMessages([...messages, newMessage]);
       setMessage("");
     }
   };
-
 
   const handleInputChange = (event) => setMessage(event.target.value);
 
